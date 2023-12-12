@@ -4,7 +4,7 @@ import PrimaryButton from "../components/PrimaryButton";
 
 function LoginScreen() {
   const [userAccount, setUserAccount] = useState("");
-  const [userPws, setUserPws] = useState("");
+  const [userPwd, setUserPwd] = useState("");
   const [data, setData] = useState("");
 
   function userAccountInputHandler(inputAccount) {
@@ -12,14 +12,23 @@ function LoginScreen() {
   }
 
   function userPwdInputHandler(inputPwd) {
-    setUserPws(inputPwd);
+    setUserPwd(inputPwd);
   }
 
   function loginButtonHandler() {
     useEffect(() => {
       const apiUrl = 'http://mpb.mynetgear.com:7001/login';
 
-      fetch(apiUrl)
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userAccount: userAccount, 
+          userPwd: userPwd,
+        })
+      })
         .then(response => response.json())
         .then(data => {
           setData(data);
